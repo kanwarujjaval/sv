@@ -1,0 +1,22 @@
+{
+  "name": "ocs-core",
+  "version": "1.0.0",
+  "description": "ocs core api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kanwar Ujjaval Singh",
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "azure-storage": "^2.10.2",
+    "boom": "^7.2.2",
+    "good": "^8.1.1",
+    "hapi": "^17.8.1",
+    "hapi-auth-jwt2": "^8.1.0",
+    "hapi-swagger": "^9.1.3",
+    "inert": "^5.1.2",
+    "joi": "^14.2.0",
+    "vision": "^5.4.3"
+  }
+}
