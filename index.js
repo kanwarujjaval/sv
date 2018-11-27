@@ -5,6 +5,7 @@ const DatabaseConnection = require('./db/DatabaseConnection');
 const config = new Config('development').getConfig();
 
 const databaseConnection = new DatabaseConnection(config.DATABASE);
+const connectionPool = databaseConnection.getConnection();
 
 const server = Hapi.server({
     port: config.SERVER.PORT,
