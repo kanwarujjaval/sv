@@ -8,12 +8,16 @@ class DatabaseConnection {
     constructor(dbConfig = null) {
         this.connection = null;
         this.CONFIG = dbConfig;
-        if (!this.CONFIG || !this.CONFIG.HOST) {
-            throw new Error('Invalid database configuration');
-        }
+    }
+
+    loadConfig(dbConfig){
+        this.CONFIG = dbConfig;
     }
 
     async makeConnection() {
+        if (!this.CONFIG || !this.CONFIG.HOST) {
+            throw new Error('Invalid database configuration');
+        }
         const config = {
             user: this.CONFIG.USER,
             password: this.CONFIG.PASSWORD,
@@ -21,10 +25,16 @@ class DatabaseConnection {
             database: this.CONFIG.DATABASE,
             options: {
                 encrypt: true
-            }
+            },
+            pool: {
+                max: 2,
+                min: 0,
+                idleTimeoutMillis: 30000
+            },
+            parseJSON: true
         };
-        let pool = await mssql.connect(config);
-        this.connection = pool;
+        let pool = new mssql.ConnectionPool(config);
+        this.connection = await pool.connect();
     }
 
     async getConnection() {

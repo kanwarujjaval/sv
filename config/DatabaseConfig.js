@@ -12,8 +12,11 @@ const specific = {
     production: {}
 };
 
-const config = (ENV) => {
-    return Object.assign(specific[ENV], common);
-};
+class DatabaseConfig{
 
-module.exports = config;
+    constructor(ENV){
+        return Object.assign(specific[ENV], common);
+    }
+}
+
+module.exports = DatabaseConfig;

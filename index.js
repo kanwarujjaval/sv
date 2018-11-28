@@ -1,25 +1,18 @@
-const Hapi = require('hapi');
+const ENV = process.env.NODE_ENV || 'development';
 const Config = require('./config/Config.js');
 const DatabaseConnection = require('./db/DatabaseConnection');
+const Server = require('./Server');
+const Logger = require('./utils/Logger');
+/*
+TODO: attach logger to server to be allowed global use.
+ */
 
-const config = new Config('development').getConfig();
+const config = new Config(ENV);
+const databaseConnection = new DatabaseConnection();
 
-const databaseConnection = new DatabaseConnection(config.DATABASE);
-const connectionPool = databaseConnection.getConnection();
-
-const server = Hapi.server({
-    port: config.SERVER.PORT,
-    host: config.SERVER.HOST
-});
-
-const init = async () => {
-    await server.start();
-    console.info(`Server running at: ${server.info.uri}`);
-};
+const server = new Server(config, databaseConnection);
 
 process.on('unhandledRejection', (err) => {
-    console.error(err);
+    Logger.error(err);
     process.exit(1);
 });
-
-init();

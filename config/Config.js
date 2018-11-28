@@ -1,4 +1,6 @@
 const Util = require('./../utils/Util');
+const ServerConfig = require('./ServerConfig');
+const DatabaseConfig = require('./DatabaseConfig');
 
 class Config {
     /**
@@ -8,8 +10,8 @@ class Config {
     constructor(env) {
         this._env = env;
         this.CONFIG = {
-            SERVER: require('./server')(env),
-            DATABASE: require('./database')(env)
+            SERVER: new ServerConfig(env),
+            DATABASE: new DatabaseConfig(env)
         };
     }
 
