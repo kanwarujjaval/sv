@@ -1,8 +1,9 @@
+const SECRET = require('./secret.json');
 const common = {
-    HOST: process.env.DB_HOST || 'localhost',
-    USER: process.env.DB_USER || 'user',
-    PASSWORD: process.env.DB_PASSWORD || 'password',
-    DATABASE: process.env.DB_NAME || 'OCS'
+    HOST: process.env.DB_HOST || SECRET.DB.HOST || 'localhost',
+    USER: process.env.DB_USER || SECRET.DB.USER || 'user',
+    PASSWORD: process.env.DB_PASSWORD || SECRET.DB.PASSWORD || 'password',
+    DATABASE: process.env.DB_NAME || SECRET.DB.DATABASE || 'OCS'
 };
 
 const specific = {

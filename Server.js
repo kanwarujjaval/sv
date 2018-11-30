@@ -1,4 +1,5 @@
 const Hapi = require('hapi');
+const Auth = require('./auth/Auth');
 
 class Server {
 
@@ -12,8 +13,13 @@ class Server {
             host: this.config.SERVER.HOST
         });
     }
+    
+    async registerPlugins(){
+        await this.server.register(new Auth().getPlugin());
+    }
 
     async startServer() {
+        await this.registerPlugins();
         await this.server.start();
         console.info(`Server running at: ${this.server.info.uri}`);
     }

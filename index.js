@@ -16,3 +16,5 @@ process.on('unhandledRejection', (err) => {
     Logger.error(err);
     process.exit(1);
 });
+
+server.startServer();

@@ -10,8 +10,8 @@ class Config {
     constructor(env) {
         this._env = env;
         this.CONFIG = {
-            SERVER: new ServerConfig(env),
-            DATABASE: new DatabaseConfig(env)
+            SERVER: new ServerConfig(this._env),
+            DATABASE: new DatabaseConfig(this._env)
         };
     }
 
@@ -19,8 +19,12 @@ class Config {
      * Update Config with latest values in config files.
      */
     reload() {
-        let server = Util.hotRequire('./server');
-        this.SERVER = server(this._env);
+        const ServerConfig = Util.hotRequire('./ServerConfig');
+        const DatabaseConfig = require('./DatabaseConfig');
+        this.CONFIG = {
+            SERVER: new ServerConfig(this._env),
+            DATABASE: new DatabaseConfig(this._env)
+        };
     }
 
     getConfig(module = null) {
