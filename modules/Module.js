@@ -9,6 +9,7 @@ class Module {
     }
 
     registerHandler() {
+
         this.server.handler();
     }
 
