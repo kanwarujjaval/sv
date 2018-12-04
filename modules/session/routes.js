@@ -1,9 +1,12 @@
 const Joi = require('joi');
-const Validator = require('./validator');
+const requireDir = require('./../../utils/Util').requireDir;
+const Validator = requireDir('./validator');
+console.log('----------------------');
+console.log(Validator);
 
 module.exports = [
     {
-        path: '/api/v1/user/login',
+        path: '/api/v1/session',
         method: 'POST',
         handler: {
             'user.login': {}
@@ -16,24 +19,6 @@ module.exports = [
                 'hapi-swagger': {
                     responses: Joi.object(),
                     payloadType: 'form'
-                }
-            },
-            validate: {
-                payload: Validator.user.login,
-                failAction: function (request, reply, source, error) {
-                    let customErrorMessage = '';
-                    if (error.output.payload.message.indexOf('[') > -1) {
-                        customErrorMessage = error.output.payload.message.substr(error.output.payload.message.indexOf('['));
-                    } else {
-                        customErrorMessage = error.output.payload.message;
-                    }
-                    customErrorMessage = customErrorMessage.replace(/"/g, '');
-                    customErrorMessage = customErrorMessage.replace('[', '');
-                    customErrorMessage = customErrorMessage.replace(']', '');
-                    error.output.payload.message = customErrorMessage;
-                    delete error.output.payload.validation;
-                    error.output.payload.data = {};
-                    return reply(error);
                 }
             }
         }
