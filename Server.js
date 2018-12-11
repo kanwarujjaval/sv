@@ -19,7 +19,9 @@ class Server {
     }
 
     async startServer() {
-
+        let a = require('./modules/session');
+        new a(this.server);
+        
         await this.registerPlugins();
         await this.server.start();
         console.info(`Server running at: ${this.server.info.uri}`);

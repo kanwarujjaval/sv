@@ -18,11 +18,12 @@ class Util {
         return require(filePath);
     }
 
-    static async requireDir(dir = './') {
+    static requireDir(dir = './') {
+        console.log(dir, 'asdasdasdasd')
         let result = {};
-        let files = await readdir(dir);
+        let files = fs.readdirSync(dir);
         files.forEach((file) => {
-            result[file.slice(0, -3)] = require(path.join('./../', dir, file))
+            result[file.slice(0, -3)] = require(path.join(dir, file))
         });
         return result;
     }
