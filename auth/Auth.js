@@ -18,11 +18,10 @@ class Auth {
     }
     
     getPlugin(){
-        let plugin = {
+        return {
             register: this.load.call(this),
             name: 'auth-jwt',
         };
-        return plugin;
     }
 
     registerAuth(err) {

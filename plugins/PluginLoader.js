@@ -1,5 +1,0 @@
-class PluginLoader {
-    constructor(env) {
-
-    }
-}

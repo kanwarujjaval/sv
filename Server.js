@@ -21,6 +21,9 @@ class Server {
     async startServer() {
         let a = require('./modules/session');
         new a(this.server);
+
+        let b = require('./utils/PluginLoader');
+        new b(this.server);
         
         await this.registerPlugins();
         await this.server.start();

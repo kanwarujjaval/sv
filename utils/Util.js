@@ -1,6 +1,4 @@
-const promisify = require('util').promisify;
 const fs = require('fs');
-const readdir = promisify(fs.readdir);
 const path = require('path');
 
 /**
@@ -19,7 +17,6 @@ class Util {
     }
 
     static requireDir(dir = './') {
-        console.log(dir, 'asdasdasdasd')
         let result = {};
         let files = fs.readdirSync(dir);
         files.forEach((file) => {

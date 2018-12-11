@@ -1,7 +1,6 @@
-const Joi = require('joi');
 const requireDir = require('./../../utils/Util').requireDir;
 const Validators = requireDir(__dirname + '/validators');
-const Handlers = requireDir(__dirname + '/handlers')
+const Handlers = requireDir(__dirname + '/handlers');
 
 module.exports = [
     {
