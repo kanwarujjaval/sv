@@ -13,6 +13,8 @@ const swaggerOptions = {
 
 module.exports = {
     name: 'hapi-swagger',
-    register: HapiSwagger,
-    options: swaggerOptions
+    plugin: {
+        register: HapiSwagger,
+        options: swaggerOptions
+    }
 };
