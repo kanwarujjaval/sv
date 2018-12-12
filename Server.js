@@ -3,6 +3,7 @@ const Inert = require('inert');
 const Vision = require('vision');
 const Auth = require('./auth/Auth');
 const PluginLoader = require('./utils/PluginLoader');
+const ModuleLoader = require('./utils/ModuleLoader');
 
 class Server {
 
@@ -18,8 +19,7 @@ class Server {
     }
 
     async registerRoutes(){
-        let a = require('./modules/session');
-        new a(this.server);
+        new ModuleLoader(this.server).apply();
     }
 
     async registerAuth(){
@@ -29,7 +29,7 @@ class Server {
     async registerPlugins() {
         await this.server.register([
             Inert,
-            Vision,
+            Vision
         ]);
         await new PluginLoader(this.server).register();
     }
