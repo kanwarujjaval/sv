@@ -10,16 +10,13 @@ class ModuleLoader {
 
     getRoutes() {
         this.getModules().forEach(m => {
-            this.routes.push(require(path.join('./../modules/' , m , '/routes')));
+            this.routes.push(require(path.join('./../modules/', m, '/routes')));
         })
     }
 
     getModules() {
         return fs.readdirSync(path.join(__dirname, './../modules')).filter(m => {
-            if (m.indexOf('.js') > -1)
-                return false
-            else
-                return true;
+            return m.indexOf('.js') <= -1;
         });
     }
 

@@ -8,4 +8,4 @@ class userLoginHandler extends Handler {
 
 module.exports = function(request, h) {
     return new userLoginHandler(request, h).getResult();
-}
+};
