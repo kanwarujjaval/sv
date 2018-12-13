@@ -1,11 +1,14 @@
 const Handler = require('./../../../classes/Handler');
 
-class userLoginHandler extends Handler {
+class UserLoginHandler extends Handler {
+    
     constructor(request, h) {
         super(request, h)
     }
+    
+    
 }
 
 module.exports = function(request, h) {
-    return new userLoginHandler(request, h).getResult();
+    return new UserLoginHandler(request, h).getResult();
 };
