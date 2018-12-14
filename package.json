@@ -19,6 +19,7 @@
     "joi": "^14.3.0",
     "jsonwebtoken": "^8.4.0",
     "mssql": "^5.0.0-alpha.1",
+    "uuid": "^3.3.2",
     "vision": "^5.4.3"
   }
 }

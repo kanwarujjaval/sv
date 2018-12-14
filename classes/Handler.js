@@ -2,10 +2,15 @@ class Handler{
     constructor(request, h){
         this.request = request;
         this.h = h;
-        this.result = {};
+        this.result = null;
     }
     
-    getResult(){
+    async makeResult(){
+        //override this    
+    }
+    
+    async getResult(){
+        await this.makeResult();
         return this.result;
     }
 }

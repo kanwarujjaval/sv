@@ -27,8 +27,8 @@ class DatabaseConnection {
                 encrypt: true
             },
             pool: {
-                max: 2,
-                min: 0,
+                max: 3,
+                min: 1,
                 idleTimeoutMillis: 30000
             },
             parseJSON: true

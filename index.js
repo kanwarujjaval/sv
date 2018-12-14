@@ -10,6 +10,7 @@ const server = new Server(config, databaseConnection);
 server.startServer();
 
 process.on('unhandledRejection', (err) => {
+    //todo close connection pool
     Logger.error(err);
     process.exit(1);
 });

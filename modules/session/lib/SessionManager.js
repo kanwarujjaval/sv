@@ -1,24 +1,24 @@
+const uuid = require('uuid/v4');
+
 class SessionManager {
 
     constructor() {
-        //init
-        //set default session store
+        this.sessions = new Map();
     }
 
-    setSessionStore() {
-        return
+    addSession(session) {
+        let id = uuid();
+        this.sessions.set(id, session);
+        session.id = id;
+        return session;
     }
 
-    addSession() {
-
-    }
-
-    deleteSession() {
-
+    deleteSession(sessionId) {
+        this.sessions.delete(sessionId);
     }
 
     persisSessionsToLogs() {
-
+        //todo
     }
 
 }

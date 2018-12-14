@@ -4,17 +4,17 @@ const Handlers = requireDir(__dirname + '/handlers');
 
 module.exports = [
     {
-        path: '/api/v1/login',
-        method: 'POST',
-        handler: Handlers.userLogin,
+        path: '/api/v1/session/otp',
+        method: 'GET',
+        handler: Handlers.getOTP,
         options: {
             auth: {
                 strategy: 'jwt',
                 mode: 'optional'
             },
-            validate: Validators.userLogin,
-            description: 'Create a new session',
-            notes: 'Create a new session for a user.',
+            validate: Validators.getOTP,
+            description: 'Get OTP',
+            notes: 'Get OTP for a new Login',
             tags: ['api', 'session'],
         },
     }
