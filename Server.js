@@ -38,6 +38,8 @@ class Server {
         this.server.decorate('toolkit', 'sql', this.connectionPool);
         // allows query to be available in handlers on h.sql.query`select 1+1 as two`
 
+        console.log(await this.connectionPool.query`select * from users`);
+
         const preResponse = function(request, h) {
             const response = request.response;
             if (response.isBoom) {

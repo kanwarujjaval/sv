@@ -12,7 +12,7 @@ class getOTPHandler extends Handler {
 
     async checkUserExists() {
         let phoneNumber = this.request.query.phoneNumber;
-        let user = await this.h.sql.query `SELECT * FROM usrs WHERE phoneNumber = 1`;
+        let user = await this.h.sql.query `SELECT * FROM users WHERE phone_number = ${phoneNumber}`;
         console.log(user);
     }
 

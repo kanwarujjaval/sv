@@ -1,17 +1,20 @@
-class Handler{
-    constructor(request, h){
+class Handler {
+    constructor(request, h) {
         this.request = request;
         this.h = h;
         this.result = null;
     }
-    
-    async makeResult(){
+
+    async makeResult() {
         //override this    
     }
-    
-    async getResult(){
+
+    async getResult() {
         await this.makeResult();
-        return this.result;
+        return {
+            success: true,
+            data: this.result
+        }
     }
 }
 
