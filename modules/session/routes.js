@@ -17,5 +17,5 @@ module.exports = [
             notes: 'Get OTP for a new Login',
             tags: ['api', 'session'],
         },
-    }
+    },
 ];

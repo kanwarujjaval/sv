@@ -1,5 +1,6 @@
 const Handler = require('./../../../classes/Handler');
 const SessionManager = require('./../lib/SessionManager');
+const Boom = require('boom');
 
 class getOTPHandler extends Handler {
 
@@ -13,7 +14,9 @@ class getOTPHandler extends Handler {
     async checkUserExists() {
         let phoneNumber = this.request.query.phoneNumber;
         let user = await this.h.sql.query `SELECT * FROM users WHERE phone_number = ${phoneNumber}`;
-        console.log(user);
+        user = user.recordsets[0].id ? user.recordsets[0] : null;
+        if (!user)
+            throw Boom.forbidden('Phone Number is not in the system');
     }
 
     generateOTP() {
