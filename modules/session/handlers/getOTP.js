@@ -38,6 +38,7 @@ class getOTPHandler extends Handler {
     }
 
 }
+console.log("File required again");
 
 module.exports = function(request, h) {
     return new getOTPHandler(request, h).getResult();
