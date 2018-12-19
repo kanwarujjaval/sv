@@ -17,5 +17,19 @@ module.exports = [
             notes: 'Get OTP for a new Login',
             tags: ['api', 'session'],
         },
+    }, {
+        path: '/api/v1/session/otp/verify',
+        method: 'GET',
+        handler: Handlers.verifyOTP,
+        options: {
+            auth: {
+                strategy: 'jwt',
+                mode: 'optional'
+            },
+            validate: Validators.verifyOTP,
+            description: 'Get OTP',
+            notes: 'Verify OTP for a new Login',
+            tags: ['api', 'session'],
+        },
     },
 ];

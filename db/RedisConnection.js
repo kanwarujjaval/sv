@@ -4,30 +4,39 @@ const {promisify} = require('util');
 class Redis {
 
     constructor(redisConfig = null) {
-        if (redisConfig)
-            this.client = _redis.createClient(redisConfig);
-        else
-            this.client = _redis.createClient(); // default config for local unauthenticated redis
+        let config = {
+            db: 0
+        };
+        Object.assign(config, redisConfig);
+        this.client = _redis.createClient(config); // default config for local unauthenticated redis
     }
 
     get() {
-        return promisify(this.client.get).bind(this.client);
+        return promisify(this.client.get).bind(this.client).call(this, ...arguments);
     }
 
     set() {
-        return promisify(this.client.set).bind(this.client);
+        return promisify(this.client.set).bind(this.client).call(this, ...arguments);
     }
 
-    hget() {
-        return promisify(this.client.hget).bind(this.client);
+    hmget() {
+        return promisify(this.client.hmget).bind(this.client).call(this, ...arguments);
     }
 
-    hset() {
-        return promisify(this.client.hset).bind(this.client);
+    hmset() {
+        return promisify(this.client.hmset).bind(this.client).call(this, ...arguments);
     }
 
     expire() {
-        return promisify(this.client.expire).bind(this.client);
+        return promisify(this.client.expire).bind(this.client).call(this, ...arguments);
+    }
+
+    del() {
+        return promisify(this.client.del).bind(this.client).call(this, ...arguments);
+    }
+
+    hdel() {
+        return promisify(this.client.hdel).bind(this.client).call(this, ...arguments);
     }
 
     static getInstance(redisConfig = null) {
