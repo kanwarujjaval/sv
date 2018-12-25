@@ -4,6 +4,9 @@ node_js:
 env:
   - NODE_ENV=development
 script: 'true'
+addons:
+  ssh_known_hosts:
+    - $host
 before_install:
   - openssl aes-256-cbc -K $encrypted_7acb0decd2c2_key -iv $encrypted_7acb0decd2c2_iv -in travis_rsa.enc -out travis_rsa -d
   - chmod 600 travis_rsa
