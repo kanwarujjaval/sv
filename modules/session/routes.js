@@ -27,7 +27,7 @@ module.exports = [
                 mode: 'optional'
             },
             validate: Validators.verifyOTP,
-            description: 'Get OTP',
+            description: 'Verify OTP',
             notes: 'Verify OTP for a new Login',
             tags: ['api', 'session'],
         },

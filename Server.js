@@ -4,6 +4,7 @@ const Vision = require('vision');
 const Auth = require('./auth/Auth');
 const PluginLoader = require('./utils/PluginLoader');
 const ModuleLoader = require('./utils/ModuleLoader');
+const {failActionHandler} = require('./utils/Util');
 
 class Server {
 
@@ -13,7 +14,12 @@ class Server {
         this.databaseConnection.loadConfig(this.config.DATABASE);
         this.server = Hapi.server({
             port: this.config.SERVER.PORT,
-            host: this.config.SERVER.HOST
+            host: this.config.SERVER.HOST,
+            routes: {
+                validate: {
+                    failAction: failActionHandler
+                }
+            }
         });
     }
 
@@ -38,13 +44,13 @@ class Server {
         this.server.decorate('toolkit', 'sql', this.connectionPool);
         // allows query to be available in handlers on h.sql.query`select 1+1 as two`
 
-        console.log(await this.connectionPool.query`select * from users`);
+        // console.log(await this.connectionPool.query`select * from users`);
 
-        const preResponse = function(request, h) {
+        const preResponse = function (request, h) {
             const response = request.response;
             if (response.isBoom) {
                 console.log(response);
-                if(response.code){
+                if (response.code) {
                     request.response.output.payload.errorCode = response.code;
                 }
             }

@@ -1,5 +1,9 @@
 const mssql = require('mssql');
 
+/*
+* Needs to be changed to google cloud sql
+* */
+
 class DatabaseConnection {
 
     /**
@@ -10,7 +14,7 @@ class DatabaseConnection {
         this.CONFIG = dbConfig;
     }
 
-    loadConfig(dbConfig){
+    loadConfig(dbConfig) {
         this.CONFIG = dbConfig;
     }
 

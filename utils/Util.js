@@ -25,6 +25,16 @@ class Util {
         return result;
     }
 
+    static async failActionHandler(request, h, err) {
+        let message = err.message.substring(err.message.indexOf('['));
+        message = message.replace(/"/g, '');
+        message = message.replace('[', '');
+        message = message.replace(']', '');
+        err.output.payload.message = message;
+        delete err.output.payload.validation;
+        throw err;
+    }
+
 }
 
 module.exports = Util;
