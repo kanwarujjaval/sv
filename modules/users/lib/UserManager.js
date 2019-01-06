@@ -10,7 +10,9 @@ class SessionManager {
     }
 
     async insertUser(user) {
+        // let q = ;
 
+        await this.sql.query`INSERT INTO users (${Object.keys(user).map(col => `[${col}]`).join(',')}) VALUES (${Object.values(user).map(col => `'${col}'`).join(',')})`;
     }
 
 }

@@ -7,9 +7,6 @@ module.exports = {
         address: Joi.string(),
         pincode: Joi.number(),
         officeNumber: Joi.string(),
-
     },
-    headers: {
-        authorization: Joi.string().token()
-    }
+    headers: Joi.object({authorization: Joi.string().token().optional()}).unknown()
 };

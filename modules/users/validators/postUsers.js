@@ -4,11 +4,8 @@ module.exports = {
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
         email: Joi.string().email(),
-        phoneNumber: Joi.number().min(9).required(),
-        country: Joi.string().max(2),
+        phoneNumber: Joi.string().min(9).required(),
         password: Joi.string().min(8)
     },
-    headers: {
-        authorization: Joi.string()
-    }
+    headers: Joi.object({authorization: Joi.string().token().optional()}).unknown()
 };

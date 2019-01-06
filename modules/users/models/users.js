@@ -1,5 +1,3 @@
-const table = {
-
-};
+const table = {};
 
 module.exports = table;
