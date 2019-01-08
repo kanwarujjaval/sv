@@ -5,13 +5,11 @@ const Redis = require('./../../../db/RedisConnection');
 class SessionManager {
 
     constructor() {
-        this.sessions = new Map();
         this.redis = Redis();
     }
 
     async addSession(session) {
         let id = uuid();
-        this.sessions.set(id, session);
         let ttl = 900;   // 15 minutes
         await this.redis.hmset(id, session);
         this.redis.expire(id, ttl);
