@@ -1,8 +1,4 @@
-const mssql = require('mssql');
-
-/*
-* Needs to be changed to google cloud sql
-* */
+const mysql = require('mysql2/promise');
 
 class DatabaseConnection {
 
@@ -18,32 +14,42 @@ class DatabaseConnection {
         this.CONFIG = dbConfig;
     }
 
-    async makeConnection() {
+    makeConfigObject() {
         if (!this.CONFIG || !this.CONFIG.HOST) {
             throw new Error('Invalid database configuration');
         }
         const config = {
             user: this.CONFIG.USER,
             password: this.CONFIG.PASSWORD,
-            server: this.CONFIG.HOST,
+            host: this.CONFIG.HOST,
+            port: this.CONFIG.PORT,
             database: this.CONFIG.DATABASE,
-            options: {
-                encrypt: true
-            },
-            pool: {
-                max: 3,
-                min: 1,
-                idleTimeoutMillis: 30000
-            },
-            parseJSON: true
+            trace: this.CONFIG.TRACE,
+            connectionLimit: this.CONFIG.CONNECTION_LIMIT
         };
-        let pool = new mssql.ConnectionPool(config);
-        this.connection = await pool.connect();
+        this.configObject = config;
+    }
+
+    async makeConnection() {
+        this.makeConfigObject();
+        console.log(this.configObject)
+        const pool = await mysql.createPool(this.configObject);
+        this.connection = pool;
+        /**
+         * This is a shortcut for the pool.getConnection() -> connection.query() -> connection.release() code flow. 
+         * Using pool.getConnection() is useful to share connection state for subsequent queries. 
+         * This is because two calls to pool.query() may use two different connections and run in parallel.
+         * https://github.com/mysqljs/mysql#pooling-connections
+         */
     }
 
     async getConnection() {
         await this.makeConnection();
-        return this.connection
+        return this.connection;
+    }
+
+    async closeConnections() {
+        this.connection.end();
     }
 }
 
