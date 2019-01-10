@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const SqlString = require('sqlstring');
 
 /**
  * The Utility Class
@@ -58,6 +59,16 @@ class Util {
             });
             return text;
         };
+    }
+
+    /**
+     * @param parse toolkit mysql escape function
+     * @param table table name
+     * @param data json object to insert
+     * create insert query from json for mysql
+     */
+    static insertQuery(table, data) {
+        return `INSERT INTO ${table} (${Object.keys(data).map(col => `${col}`).join(',')}) VALUES (${Object.values(data).map(col => `${SqlString.escape(col) + ''}`).join(',')})`;
     }
 
 }

@@ -6,7 +6,7 @@ class postUserHandler extends Handler {
 
     constructor(request, h) {
         super(request, h);
-        this.userManager = new UserManager(h.sql);
+        this.userManager = new UserManager(h);
     }
 
     async saveUser() {

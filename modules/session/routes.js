@@ -6,29 +6,29 @@ module.exports = [
     {
         path: '/api/v1/session/otp',
         method: 'GET',
-        handler: Handlers.getOTP,
+        handler: Handlers.getOtp,
         options: {
             auth: {
                 strategy: 'jwt',
                 mode: 'optional'
             },
-            validate: Validators.getOTP,
+            validate: Validators.getOtp,
             description: 'Get OTP',
-            notes: 'Get OTP for a new Login',
+            notes: 'Get OTP for a new Session',
             tags: ['api', 'session'],
         },
     }, {
         path: '/api/v1/session/otp/verify',
         method: 'GET',
-        handler: Handlers.verifyOTP,
+        handler: Handlers.verifyOtp,
         options: {
             auth: {
                 strategy: 'jwt',
                 mode: 'optional'
             },
-            validate: Validators.verifyOTP,
+            validate: Validators.verifyOtp,
             description: 'Verify OTP',
-            notes: 'Verify OTP for a new Login',
+            notes: 'Verify OTP for a new Session',
             tags: ['api', 'session'],
         },
     },

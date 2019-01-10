@@ -1,5 +1,5 @@
 const _redis = require('redis');
-const {promisify} = require('util');
+const { promisify } = require('util');
 
 class Redis {
 
@@ -37,6 +37,10 @@ class Redis {
 
     hdel() {
         return promisify(this.client.hdel).bind(this.client).call(this, ...arguments);
+    }
+
+    hgetall() {
+        return promisify(this.client.hgetall).bind(this.client).call(this, ...arguments);
     }
 
     static getInstance(redisConfig = null) {

@@ -1,20 +1,21 @@
 const Boom = require('boom');
+var { insertQuery } = require('./../../../utils/Util');
 
-class SessionManager {
+class UserManager {
 
     /**
      * @param sql : sql object decorated on response toolkit, to execute sql queries as sql.query();
      */
-    constructor(sql) {
-        this.sql = sql;
+    constructor(toolkit) {
+        this.sql = toolkit.sql;
+        this.parse = toolkit.parse;
     }
 
     async insertUser(user) {
-        // let q = ;
-
-        await this.sql.query`INSERT INTO users (${Object.keys(user).map(col => `[${col}]`).join(',')}) VALUES (${Object.values(user).map(col => `'${col}'`).join(',')})`;
+        let q = insertQuery('user', user);
+        await this.sql.query(q);
     }
 
 }
 
-module.exports = SessionManager;
+module.exports = UserManager;

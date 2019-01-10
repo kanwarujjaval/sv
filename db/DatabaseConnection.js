@@ -32,7 +32,6 @@ class DatabaseConnection {
 
     async makeConnection() {
         this.makeConfigObject();
-        console.log(this.configObject)
         const pool = await mysql.createPool(this.configObject);
         this.connection = pool;
         /**
