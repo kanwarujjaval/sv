@@ -1,5 +1,4 @@
 const Handler = require('./../../../classes/Handler');
-const Boom = require('boom');
 const UserManager = require('../lib/UserManager');
 
 class postUserHandler extends Handler {
@@ -11,7 +10,7 @@ class postUserHandler extends Handler {
 
     async saveUser() {
         let user = this.request.payload;
-        return await this.userManager.insertUser(user);
+        return this.userManager.insertUser(user);
     }
 
     async makeResult() {

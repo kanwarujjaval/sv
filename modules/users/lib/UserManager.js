@@ -8,7 +8,6 @@ class UserManager {
      */
     constructor(toolkit) {
         this.sql = toolkit.sql;
-        this.parse = toolkit.parse;
     }
 
     async insertUser(user) {

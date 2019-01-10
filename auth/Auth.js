@@ -10,7 +10,7 @@ class Auth {
         await this.server.register(hapiAuthJWT);
 
         this.server.auth.strategy('jwt', 'jwt', {
-            key: process.env.JWT || 'randomkey',
+            key: process.env.JWT || 'temp_please_get_this_from_config_and_secret.json_file',
             validate: this.validate,
             verifyOptions: {algorithms: ['HS256']}
         });
@@ -24,7 +24,7 @@ class Auth {
     }
 
     static createToken(data) {
-        return JWT.sign(data, process.env.JWT_SECRET);
+        return JWT.sign(data, process.env.JWT || 'temp_please_get_this_from_config_and_secret.json_file');
     }
 }
 

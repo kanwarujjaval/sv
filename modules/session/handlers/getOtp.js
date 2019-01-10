@@ -5,42 +5,43 @@ class getOTPHandler extends Handler {
 
     constructor(request, h) {
         super(request, h);
-        this.sessionManager = new SessionManager();
-        this.user = null;
-        this.OTP = null;
+        this.intent = this.request.query.intent;
+        this.phoneNumber = this.request.query.phoneNumber;
+        this.OTP = this.generateOTP();
+        this.sessionManager = new SessionManager(this.intent);
     }
 
     generateOTP() {
-        this.OTP = Math.floor(100000 + Math.random() * 9000);
+        return Math.floor(100000 + Math.random() * 9000);
     }
 
     sendOTP() {
         // attach a sender and send this.OTP
     }
 
-    async setSession() {
+    async createSession() {
         let session = {
             otp: this.OTP,
-            userId: this.user.id,
-            phoneNumber: this.user.phoneNumber,
-            intent: this.intent
+            phoneNumber: this.phoneNumber,
         };
         session = await this.sessionManager.addSession(session);
         return session;
     }
 
     async makeResult() {
-        this.generateOTP();
         this.sendOTP();
-        let session = await this.setSession();
+
+        let session = await this.createSession();
+        let token = await this.sessionManager.validateSession()
         this.result = {
-            token: session.id,
+            token: token,
+            sessionId: session.id,
             otp: this.OTP // only for testing, does not go on production
         }
     }
 
 }
 
-module.exports = function(request, h) {
+module.exports = function (request, h) {
     return new getOTPHandler(request, h).getResult();
 };

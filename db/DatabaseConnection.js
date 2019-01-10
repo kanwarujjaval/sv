@@ -31,15 +31,15 @@ class DatabaseConnection {
     }
 
     async makeConnection() {
-        this.makeConfigObject();
-        const pool = await mysql.createPool(this.configObject);
-        this.connection = pool;
         /**
-         * This is a shortcut for the pool.getConnection() -> connection.query() -> connection.release() code flow. 
-         * Using pool.getConnection() is useful to share connection state for subsequent queries. 
+         * pool.query()
+         * This is a shortcut for the pool.getConnection() -> connection.query() -> connection.release() code flow.
+         * Using pool.getConnection() is useful to share connection state for subsequent queries.
          * This is because two calls to pool.query() may use two different connections and run in parallel.
          * https://github.com/mysqljs/mysql#pooling-connections
          */
+        this.makeConfigObject();
+        this.connection = await mysql.createPool(this.configObject);
     }
 
     async getConnection() {

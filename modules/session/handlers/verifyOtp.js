@@ -6,41 +6,51 @@ class getOTPHandler extends Handler {
 
     constructor(request, h) {
         super(request, h);
-        this.sessionManager = new SessionManager();
-        this.jwt = null;
-        this.phoneNumber = null;
+        this.intent = this.request.query.intent;
         this.sessionId = this.request.query.uid;
-        this.session = this.sessionStorage.getSession(this.sessionId);
+        this.sessionManager = new SessionManager(this.intent, this.sessionId);
+        this.session = null;
+    }
+
+    async getSession() {
+        this.session = await this.sessionManager.getSession();
+    }
+
+    async verifyOtp() {
+        if (Number(this.session.otp) !== Number(this.request.query.otp)) {
+            throw Boom.forbidden('Invalid OTP');
+        }
+        if (this.intent !== this.session.intent) {
+            throw Boom.forbidden('Invalid Session Intent');
+        }
     }
 
     async checkUserExists() {
         let phoneNumber = this.session.phoneNumber;
-        let [user] = await this.h.sql.query(this.h.parse `SELECT * FROM user WHERE phoneNumber = ${phoneNumber}`);
+        let [user] = await this.h.sql.query(this.h.parse`SELECT *
+                                                         FROM user
+        WHERE phoneNumber = ${phoneNumber}`);
         try {
             this.user = user[0].id ? user[0] : null;
-        }
-        catch (e) {
+        } catch (e) {
             throw Boom.forbidden('Phone Number is not in the system');
         }
     }
 
-    async verifyOtp() {
-        this.otp = this.request.query.otp;
-        this.intent = this.request.query.intent;
-        this.jwt = await this.sessionManager.verifySession(this.sessionId, this.otp, this.intent);
-        this.phoneNumber = null;
-    }
-
     async makeResult() {
+        await this.getSession();
         await this.verifyOtp();
-        await this.checkUserExists;
+        if (this.intent === 'LOGIN') {
+            await this.checkUserExists;
+        }
+        let token = await this.sessionManager.validateSession();
         this.result = {
-            token: this.jwt // only for testing, does not go on production
+            token: token
         }
     }
 
 }
 
-module.exports = function(request, h) {
+module.exports = function (request, h) {
     return new getOTPHandler(request, h).getResult();
 };
