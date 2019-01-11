@@ -7,13 +7,18 @@ class getOTPHandler extends Handler {
     constructor(request, h) {
         super(request, h);
         this.intent = this.request.query.intent;
-        this.sessionId = this.request.query.uid;
+        this.sessionId = this.request.auth.credentials.id;
         this.sessionManager = new SessionManager(this.intent, this.sessionId);
         this.session = null;
     }
 
     async getSession() {
         this.session = await this.sessionManager.getSession();
+        console.log(this.session)
+        if (!this.session || !this.session.otp) {
+            throw Boom.forbidden('OTP expired');
+        }
+        return
     }
 
     async verifyOtp() {
@@ -27,12 +32,13 @@ class getOTPHandler extends Handler {
 
     async checkUserExists() {
         let phoneNumber = this.session.phoneNumber;
-        let [user] = await this.h.sql.query(this.h.parse`SELECT *
+        let [user] = await this.h.sql.query(this.h.parse `SELECT *
                                                          FROM user
         WHERE phoneNumber = ${phoneNumber}`);
         try {
             this.user = user[0].id ? user[0] : null;
-        } catch (e) {
+        }
+        catch (e) {
             throw Boom.forbidden('Phone Number is not in the system');
         }
     }
@@ -45,12 +51,12 @@ class getOTPHandler extends Handler {
         }
         let token = await this.sessionManager.validateSession();
         this.result = {
-            token: token
+            verified: token
         }
     }
 
 }
 
-module.exports = function (request, h) {
+module.exports = function(request, h) {
     return new getOTPHandler(request, h).getResult();
 };

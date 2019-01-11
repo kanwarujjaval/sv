@@ -11,12 +11,12 @@ class SessionManager {
             throw Boom.internal('invalid session construction');
         }
         this.redis = Redis();
-        this.intent = intent;       // set the session intent
-        this.sessionId = sessionId || uuid();     //set the sessionId
+        this.intent = intent; // set the session intent
+        this.sessionId = sessionId || uuid(); //set the sessionId
         this.session = {
             id: this.sessionId,
             intent: this.intent
-        };        // session placeholder
+        }; // session placeholder
     }
 
     async validateSessionObject() {
@@ -25,7 +25,7 @@ class SessionManager {
 
     async addSession(session) {
         Object.assign(this.session, session);
-        this.session.valid = 0;                     // by default new sessions are invalid to prevent login
+        this.session.valid = 0; // by default new sessions are invalid to prevent login
         await this.validateSessionObject();
         await this.redis.hmset(this.sessionId, this.session);
         let ttl = 900; // 15 minutes
@@ -41,6 +41,10 @@ class SessionManager {
         this.redis.hdel(this.sessionId, "otp");
         this.redis.hmset(this.sessionId, "valid", 1);
         this.redis.expire(this.sessionId, ttl);
+        return
+    }
+
+    getToken() {
         return Auth.createToken(this.sessionId);
     }
 

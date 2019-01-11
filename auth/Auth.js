@@ -1,5 +1,6 @@
 const hapiAuthJWT = require('hapi-auth-jwt2');
 const JWT = require('jsonwebtoken');
+const redis = require('./../db/RedisConnection')();
 
 class Auth {
     constructor(server) {
@@ -12,16 +13,24 @@ class Auth {
         this.server.auth.strategy('jwt', 'jwt', {
             key: process.env.JWT || 'temp_please_get_this_from_config_and_secret.json_file',
             validate: this.validate,
-            verifyOptions: {algorithms: ['HS256']}
+            verifyOptions: { algorithms: ['HS256'] }
         });
         this.server.auth.default('jwt');
     }
 
-    validate(decoded, request, cb) {
+    async validate(decoded, request) {
+        let session = await redis.hgetall(decoded);
+        if (!session || !session.id)
+            return { isValid: false }
+        // if (session.valid) {}
+        session.scope = ['LOGIN'];
         if (decoded) {
-            return cb(null, true);
+            return {
+                isValid: true,
+                credentials: session
+            };
         }
-    }
+    };
 
     static createToken(data) {
         return JWT.sign(data, process.env.JWT || 'temp_please_get_this_from_config_and_secret.json_file');

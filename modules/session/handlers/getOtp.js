@@ -30,9 +30,8 @@ class getOTPHandler extends Handler {
 
     async makeResult() {
         this.sendOTP();
-
         let session = await this.createSession();
-        let token = await this.sessionManager.validateSession()
+        let token = this.sessionManager.getToken();
         this.result = {
             token: token,
             sessionId: session.id,
