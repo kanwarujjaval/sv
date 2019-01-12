@@ -5,7 +5,7 @@ module.exports = {
         lastName: Joi.string().required(),
         email: Joi.string().email(),
         phoneNumber: Joi.string().min(9).required(),
-        password: Joi.string().min(8)
+        password: Joi.string()
     },
-    headers: Joi.object({authorization: Joi.string().token().optional()}).unknown()
+    headers: Joi.object({authorization: Joi.string().optional()}).unknown()
 };

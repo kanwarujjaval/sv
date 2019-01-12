@@ -7,7 +7,7 @@ class getOTPHandler extends Handler {
     constructor(request, h) {
         super(request, h);
         this.intent = this.request.query.intent;
-        this.sessionId = this.request.auth.credentials.id;
+        this.sessionId = this.request.query.uid;
         this.sessionManager = new SessionManager(this.intent, this.sessionId);
         this.session = null;
     }
@@ -49,9 +49,11 @@ class getOTPHandler extends Handler {
         if (this.intent === 'LOGIN') {
             await this.checkUserExists;
         }
-        let token = await this.sessionManager.validateSession();
+        let verified = await this.sessionManager.validateSession();
+        let token = this.sessionManager.getToken();
         this.result = {
-            verified: token
+            verified: verified,
+            token: token
         }
     }
 

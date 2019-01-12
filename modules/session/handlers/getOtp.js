@@ -31,16 +31,14 @@ class getOTPHandler extends Handler {
     async makeResult() {
         this.sendOTP();
         let session = await this.createSession();
-        let token = this.sessionManager.getToken();
         this.result = {
-            token: token,
-            sessionId: session.id,
+            uid: session.id,
             otp: this.OTP // only for testing, does not go on production
         }
     }
 
 }
 
-module.exports = function (request, h) {
+module.exports = function(request, h) {
     return new getOTPHandler(request, h).getResult();
 };

@@ -24,10 +24,7 @@ module.exports = [
         options: {
             auth: {
                 strategy: 'jwt',
-                mode: 'required',
-                access:{
-                    scope: ['LOGIN','SIGNUP']
-                }
+                mode: 'optional',
             },
             validate: Validators.verifyOtp,
             description: 'Verify OTP',

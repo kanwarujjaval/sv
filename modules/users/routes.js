@@ -10,7 +10,8 @@ module.exports = [
         options: {
             auth: {
                 strategy: 'jwt',
-                mode: 'optional'
+                mode: 'required',
+                scope: ['SIGNUP', 'SUPER_ADMIN', 'SCHOOL_STAFF', 'SCHOOL_ADMIN']
             },
             validate: Validators.postUsers,
             description: 'Create User',

@@ -20,16 +20,17 @@ class Auth {
 
     async validate(decoded, request) {
         let session = await redis.hgetall(decoded);
-        if (!session || !session.id)
+        if (!session || !session.id || !Number(session.valid))
             return { isValid: false }
         session.scope = [];
         if (session.valid) {
-            switch (session.inten) {
+            switch (session.intent) {
                 case 'LOGIN':
                     session.scope.push(session.role)
                     break;
                 case 'SIGNUP':
                     session.scope = ['SIGNUP']
+                    break;
             }
         }
         return {
