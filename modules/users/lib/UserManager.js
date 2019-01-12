@@ -4,7 +4,7 @@ var { insertQuery } = require('./../../../utils/Util');
 class UserManager {
 
     /**
-     * @param sql : sql object decorated on response toolkit, to execute sql queries as sql.query();
+     * @param toolkit : hapi response toolkil object;
      */
     constructor(toolkit) {
         this.sql = toolkit.sql;

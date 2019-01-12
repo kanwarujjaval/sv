@@ -1,6 +1,6 @@
 var { insertQuery } = require('./../../../utils/Util');
 
-class SchoolManager {
+class SubjectManager {
 
     /**
      * @param toolkit : hapi response toolkil object;
@@ -9,11 +9,11 @@ class SchoolManager {
         this.sql = toolkit.sql;
     }
 
-    async insertSchool(school) {
-        let q = insertQuery('school', school);
+    async insertSubject(subject) {
+        let q = insertQuery('subject', subject);
         await this.sql.query(q);
     }
 
 }
 
-module.exports = SchoolManager;
+module.exports = SubjectManager;

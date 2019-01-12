@@ -1,12 +1,11 @@
 const Handler = require('./../../../classes/Handler');
-const Boom = require('boom');
 const SchoolManager = require('./../lib/SchoolManager');
 
 class postSchoolHandler extends Handler {
 
     constructor(request, h) {
         super(request, h);
-        this.schoolManager = new SchoolManager(h.sql);
+        this.schoolManager = new SchoolManager(h);
     }
 
     async saveSchool() {
@@ -15,6 +14,7 @@ class postSchoolHandler extends Handler {
     }
 
     async makeResult() {
+        this.saveSchool();
         this.result = {}
     }
 
