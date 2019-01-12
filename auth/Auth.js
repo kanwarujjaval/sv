@@ -22,14 +22,20 @@ class Auth {
         let session = await redis.hgetall(decoded);
         if (!session || !session.id)
             return { isValid: false }
-        // if (session.valid) {}
-        session.scope = ['LOGIN'];
-        if (decoded) {
-            return {
-                isValid: true,
-                credentials: session
-            };
+        session.scope = [];
+        if (session.valid) {
+            switch (session.inten) {
+                case 'LOGIN':
+                    session.scope.push(session.role)
+                    break;
+                case 'SIGNUP':
+                    session.scope = ['SIGNUP']
+            }
         }
+        return {
+            isValid: true,
+            credentials: session
+        };
     };
 
     static createToken(data) {

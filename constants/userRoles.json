@@ -1,0 +1,8 @@
+{
+    0: 'SUPER_ADMIN',
+    1: 'PARENT',
+    2: 'TEACHER',
+    3: 'STUDENT',
+    4: 'SCHOOL_STAFF',
+    5: 'SCHOOL_ADMIN'
+}
