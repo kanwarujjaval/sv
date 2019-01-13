@@ -14,11 +14,9 @@ class getOTPHandler extends Handler {
 
     async getSession() {
         this.session = await this.sessionManager.getSession();
-        console.log(this.session)
         if (!this.session || !this.session.otp) {
             throw Boom.forbidden('OTP expired');
         }
-        return
     }
 
     async verifyOtp() {

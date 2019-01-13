@@ -3,7 +3,7 @@ var { insertQuery } = require('./../../../utils/Util');
 class SchoolManager {
 
     /**
-     * @param toolkit : hapi response toolkil object;
+     * @param toolkit : hapi response toolkit object;
      */
     constructor(toolkit) {
         this.sql = toolkit.sql;
