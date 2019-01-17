@@ -1,5 +1,5 @@
 const Boom = require('boom');
-var { insertQuery } = require('./../../../utils/Util');
+const { insertQuery } = require('./../../../utils/Util');
 
 class UserManager {
 

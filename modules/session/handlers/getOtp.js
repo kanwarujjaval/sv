@@ -12,7 +12,7 @@ class getOTPHandler extends Handler {
     }
 
     generateOTP() {
-        return Math.floor(100000 + Math.random() * 9000);
+        return Number((Math.floor(100000 + Math.random() * 99999999999) + '').substring(0,6));
     }
 
     sendOTP() {
@@ -39,6 +39,6 @@ class getOTPHandler extends Handler {
 
 }
 
-module.exports = function(request, h) {
+module.exports = function (request, h) {
     return new getOTPHandler(request, h).getResult();
 };

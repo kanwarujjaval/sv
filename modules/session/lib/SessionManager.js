@@ -41,7 +41,10 @@ class SessionManager {
         this.redis.hdel(this.sessionId, "otp");
         this.redis.hmset(this.sessionId, "valid", 1);
         this.redis.expire(this.sessionId, ttl);
-        return
+    }
+
+    async addUser(user) {
+        await this.redis.hmset(this.sessionId, 'user', user)
     }
 
     getToken() {

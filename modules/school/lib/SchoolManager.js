@@ -1,4 +1,4 @@
-var { insertQuery } = require('./../../../utils/Util');
+const { insertQuery } = require('./../../../utils/Util');
 
 class SchoolManager {
 

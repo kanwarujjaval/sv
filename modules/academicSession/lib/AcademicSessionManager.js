@@ -1,4 +1,4 @@
-var {insertQuery} = require('./../../../utils/Util');
+const {insertQuery} = require('./../../../utils/Util');
 
 class SectionManager {
 
@@ -9,9 +9,13 @@ class SectionManager {
         this.sql = toolkit.sql;
     }
 
-    async createSession() {
+    async createSession(data) {
+        let batch = {
+            name: data.name,
+            section: data.section
+        };
+        let academicSession = {};
         let batchId = await this.insertBatch();
-        let sectionId = await this.insertSection();
         let academicSessionId = await this.insertAcademicSession();
 
     }
