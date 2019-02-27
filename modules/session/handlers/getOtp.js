@@ -1,5 +1,6 @@
 const Handler = require('./../../../classes/Handler');
 const SessionManager = require('./../lib/SessionManager');
+const Boom = require('boom');
 
 class getOTPHandler extends Handler {
 
@@ -29,6 +30,12 @@ class getOTPHandler extends Handler {
     }
 
     async makeResult() {
+        if(this.intent === "LOGIN"){
+            let [user] = await this.h.sql.query(this.h.parse`SELECT id FROM user WHERE phoneNumber = ${this.phoneNumber}`);
+            if(!user[0] || !user[0].id){
+                throw Boom.forbidden('Phone Number is not in the system');
+            }
+        }
         this.sendOTP();
         let session = await this.createSession();
         this.result = {

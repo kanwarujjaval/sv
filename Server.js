@@ -4,7 +4,7 @@ const Vision = require('vision');
 const Auth = require('./auth/Auth');
 const PluginLoader = require('./utils/PluginLoader');
 const ModuleLoader = require('./utils/ModuleLoader');
-const { failActionHandler, queryParser } = require('./utils/Util');
+const {failActionHandler, queryParser} = require('./utils/Util');
 const SqlString = require('sqlstring');
 
 class Server {
@@ -44,10 +44,11 @@ class Server {
         this.connectionPool = await this.databaseConnection.getConnection();
         this.server.decorate('toolkit', 'sql', this.connectionPool);
         this.server.decorate('toolkit', 'parse', queryParser(SqlString.escape));
+        this.server.decorate('toolkit', 'escape', SqlString.escape);
         // allows query to be available in handlers on h.sql.query(`select 1+1 as two`)
         // console.log(await this.connectionPool.query(queryParser(this.connectionPool.escape)`select 1+1 as two`));
 
-        const preResponse = function(request, h) {
+        const preResponse = function (request, h) {
             const response = request.response;
             if (response.isBoom) {
                 console.log(response);

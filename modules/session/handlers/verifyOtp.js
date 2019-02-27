@@ -10,6 +10,7 @@ class getOTPHandler extends Handler {
         this.sessionId = this.request.query.uid;
         this.sessionManager = new SessionManager(this.intent, this.sessionId);
         this.session = null;
+        this.user = null;
     }
 
     async getSession() {
@@ -30,13 +31,12 @@ class getOTPHandler extends Handler {
 
     async checkUserExists() {
         let phoneNumber = this.session.phoneNumber;
-        let [user] = await this.h.sql.query(this.h.parse `SELECT *
+        let [user] = await this.h.sql.query(this.h.parse`SELECT *
                                                          FROM user
         WHERE phoneNumber = ${phoneNumber}`);
         try {
             this.user = user[0].id ? user[0] : null;
-        }
-        catch (e) {
+        } catch (e) {
             throw Boom.forbidden('Phone Number is not in the system');
         }
     }
@@ -45,7 +45,8 @@ class getOTPHandler extends Handler {
         await this.getSession();
         await this.verifyOtp();
         if (this.intent === 'LOGIN') {
-            await this.checkUserExists;
+            await this.checkUserExists();
+            this.sessionManager.addKeys('userId', this.user.id);
         }
         let verified = await this.sessionManager.validateSession();
         let token = this.sessionManager.getToken();
@@ -57,6 +58,6 @@ class getOTPHandler extends Handler {
 
 }
 
-module.exports = function(request, h) {
+module.exports = function (request, h) {
     return new getOTPHandler(request, h).getResult();
 };
