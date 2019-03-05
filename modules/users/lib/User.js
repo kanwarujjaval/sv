@@ -1,14 +1,18 @@
 const Boom = require('boom');
 const {insertQuery} = require('./../../../utils/Util');
 
-class UserManager {
+class User {
 
     /**
      * @param toolkit : hapi response toolkit object;
      */
-    constructor(toolkit) {
+    constructor(toolkit, id) {
         this.sql = toolkit.sql;
         this.escape = toolkit.escape;
+        this.id = id;
+        if (!this.id) {
+            throw Boom.internal('Invalid user initialization');
+        }
     }
 
     async insertUser(user) {
@@ -16,7 +20,7 @@ class UserManager {
         await this.sql.query(q);
     }
 
-    async getChildren(userId) {
+    async getChildrenForParent() {
         let q = `
           SELECT user.firstName,
                  user.lastName,
@@ -25,11 +29,18 @@ class UserManager {
                  user.id
           FROM parentChildrenRelation
                  LEFT JOIN user ON parentChildrenRelation.chldUserId = user.id
-          WHERE parentUserId = ${this.escape(userId)}`;
+          WHERE parentUserId = ${this.escape(this.id)}`;
         let [res] = await this.sql.query(q);
         return res;
     }
 
+    async getChildrenByClass() {
+        let q = ``;
+        let [res] = await this.sql.query(q);
+        return res;
+    }
+
+
 }
 
-module.exports = UserManager;
+module.exports = User;

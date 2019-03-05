@@ -1,5 +1,5 @@
 const Handler = require('./../../../classes/Handler');
-const AcademicSessionManager = require('./../lib/AcademicSessionManager');
+const AcademicSessionManager = require('../lib/AcademicSession');
 
 class postClassHandler extends Handler {
 
