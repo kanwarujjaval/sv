@@ -1,16 +1,16 @@
 const Handler = require('./../../../classes/Handler');
-const UserManager = require('../lib/UserManager');
+const User = require('../lib/User');
 
 class getChildrenHandler extends Handler {
 
     constructor(request, h) {
         super(request, h);
-        this.userManager = new UserManager(h);
         this.userId = request.auth.credentials.userId;
+        this.user = new User(h, this.userId);
     }
 
     async makeResult() {
-        this.result = await this.userManager.getChildren(this.userId);
+        this.result = await this.user.getChildrenForParent();
     }
 }
 

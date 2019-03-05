@@ -43,18 +43,30 @@ class AcademicSessionManager {
         return res;
     }
 
+    /**
+     *
+     * @param startDate
+     */
     startSession(startDate = Date.now()) {
         this.sql.query(`
           UPDATE academicSession
           SET startDate = ${startDate}, active = 1 WHERE id = ${this.id}`);
     }
 
+    /**
+     *
+     * @param endDate
+     */
     endSession(endDate = Date.now) {
         this.sql.query(`
           UPDATE academicSession
           SET endDate = ${endDate}, active = 0 WHERE  id = ${this.id}`);
     }
 
+    /**
+     *
+     * @param childUserIds
+     */
     linkChildrenToAcademicSessionBulk(childUserIds) {
         let insertArray = [];
         childUserIds.forEach(function (entry) {
@@ -65,12 +77,21 @@ class AcademicSessionManager {
         this.sql.query(q, insertArray);
     }
 
+    /**
+     *
+     * @param teacherUserId
+     * @param subjectId
+     */
     linkTeacherToAcademicSession(teacherUserId, subjectId) {
         let q = `INSERT INTO academicSessionTeacher (academicSessionId, teacherUserId, subjectId)
                  VALUES (${this.id},${teacherUserId},${subjectId})`;
         this.sql.query(q);
     }
 
+    /**
+     *
+     * @param childUserId
+     */
     linkChildrenToAcademicSession(childUserId) {
         let q = `INSERT INTO academicSessionStudent (academicSessionId, studentUserId)
                  VALUES (${this.id},${childUserId})`;

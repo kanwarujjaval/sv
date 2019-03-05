@@ -4,7 +4,9 @@ const {insertQuery} = require('./../../../utils/Util');
 class User {
 
     /**
+     *
      * @param toolkit : hapi response toolkit object;
+     * @param id : User Id
      */
     constructor(toolkit, id) {
         this.sql = toolkit.sql;
@@ -15,11 +17,20 @@ class User {
         }
     }
 
+    /**
+     *
+     * @param user
+     * @returns {Promise<void>}
+     */
     async insertUser(user) {
         let q = insertQuery('user', user);
         await this.sql.query(q);
     }
 
+    /**
+     *
+     * @returns {Promise<*>}
+     */
     async getChildrenForParent() {
         let q = `
           SELECT user.firstName,
@@ -33,13 +44,6 @@ class User {
         let [res] = await this.sql.query(q);
         return res;
     }
-
-    async getChildrenByClass() {
-        let q = ``;
-        let [res] = await this.sql.query(q);
-        return res;
-    }
-
 
 }
 
