@@ -65,11 +65,11 @@ class AcademicSessionManager {
 
     /**
      *
-     * @param childUserIds
+     * @param studentUserIds
      */
-    linkChildrenToAcademicSessionBulk(childUserIds) {
+    linkStudentBulk(studentUserIds) {
         let insertArray = [];
-        childUserIds.forEach(function (entry) {
+        studentUserIds.forEach(function (entry) {
             insertArray.push([this.id, entry]);
         });
         let q = `INSERT INTO academicSessionStudent (academicSessionId, studentUserId)
@@ -79,10 +79,20 @@ class AcademicSessionManager {
 
     /**
      *
+     * @param studentUserId
+     */
+    linkStudent(studentUserId) {
+        let q = `INSERT INTO academicSessionStudent (academicSessionId, studentUserId)
+                 VALUES (${this.id},${studentUserId})`;
+        this.sql.query(q);
+    }
+
+    /**
+     *
      * @param teacherUserId
      * @param subjectId
      */
-    linkTeacherToAcademicSession(teacherUserId, subjectId) {
+    linkTeacher(teacherUserId, subjectId) {
         let q = `INSERT INTO academicSessionTeacher (academicSessionId, teacherUserId, subjectId)
                  VALUES (${this.id},${teacherUserId},${subjectId})`;
         this.sql.query(q);
@@ -90,13 +100,29 @@ class AcademicSessionManager {
 
     /**
      *
-     * @param childUserId
+     * @param subjectId
+     * @returns {Promise<*>}
      */
-    linkChildrenToAcademicSession(childUserId) {
-        let q = `INSERT INTO academicSessionStudent (academicSessionId, studentUserId)
-                 VALUES (${this.id},${childUserId})`;
-        this.sql.query(q);
+    async linkCoreSubject(subjectId) {
+        let q = `INSERT INTO academicSessionCoreSubject (academicSessionId, subjectId)
+                 VALUES (${this.id} ,${subjectId})`;
+        let [res] = await this.sql.query(q);
+        return res;
     }
+
+    /**
+     *
+     * @param subjectId
+     * @param studentUserId
+     * @returns {Promise<*>}
+     */
+    async linkElectiveSubject(subjectId, studentUserId) {
+        let q = `INSERT INTO academicSessionElectiveSubject (academicSessionId, subjectId, studentUserId)
+                 VALUES (${this.id}, ${subjectId}, ${studentUserId})`;
+        let [res] = await this.sql.query(q);
+        return res;
+    }
+
 
     modules() {
         // academicSessionAttendance
