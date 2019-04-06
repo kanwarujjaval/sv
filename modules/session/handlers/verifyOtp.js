@@ -50,9 +50,54 @@ class getOTPHandler extends Handler {
         }
         let verified = await this.sessionManager.validateSession();
         let token = this.sessionManager.getToken();
+        // Send Home screen data here
+        // Refer to the data.json - route / for parent and teacher
+        // For Parent - iterate through all the users and send them
+        // For teacher - iterate through all the batches he/she is teaching and send them
+        // Send data in the data field
+        // FOR PARENT
+        // sample - data : {
+        //     "type": "Grid",
+        //     "title": "Your children",
+        //     "iterator": [
+        //         {
+        //             "icon": "https://gw.alipayobjects.com/zos/rmsportal/nywPmnTAvTmLusPxHPSu.png",
+        //             "name": "Kanwar Ujjaval Singh",
+        //             "viewUrl": "/Kanwar",
+        //             "dataUrl": "/child"
+        //         },
+        //         {
+        //             "icon": "https://gw.alipayobjects.com/zos/rmsportal/nywPmnTAvTmLusPxHPSu.png",
+        //             "name": "Sachin Verma",
+        //             "viewUrl": "/Sachin",
+        //             "dataUrl": "/child"
+        //         }
+        //     ]
+        // }
+
+        //FOR TEACHER
+        // sample - data : {
+        //     "type": "Grid",
+        //     "title": "Your Classes",
+        //     "iterator": [
+        //         {
+        //             "icon": "https://gw.alipayobjects.com/zos/rmsportal/nywPmnTAvTmLusPxHPSu.png",
+        //             "name": "Class 10th",
+        //             "viewUrl": "/class/10",
+        //             "dataUrl": "/class"
+        //         },
+        //         {
+        //             "icon": "https://gw.alipayobjects.com/zos/rmsportal/nywPmnTAvTmLusPxHPSu.png",
+        //             "name": "Class 8th",
+        //             "viewUrl": "/class/8",
+        //             "dataUrl": "/class"
+        //         }
+        //     ]
+        // }
         this.result = {
             verified: verified,
-            token: token
+            token: token,
+            // data : {}
         }
     }
 
